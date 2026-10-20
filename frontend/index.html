@@ -3,280 +3,337 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мировое время - Встречи</title>
-    <!-- Подключаем современный шрифт Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Подключаем Tailwind CSS для стилизации -->
+    <title>Мировое время - Продвинутая версия</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6; /* Светло-серый фон */
-        }
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-<body class="text-gray-800 antialiased min-h-screen p-4 md:p-8">
+<body class="bg-slate-50 min-h-screen text-slate-800 font-sans pb-10">
 
-    <div class="max-w-4xl mx-auto space-y-6">
-        
-        <!-- Заголовок страницы -->
-        <header class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 flex items-center justify-center gap-3">
-                <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
-                Расписание международных встреч
-            </h1>
-            <p class="text-gray-500 mt-2">Планируйте звонки и встречи с учетом часовых поясов</p>
-        </header>
+    <div class="max-w-5xl mx-auto pt-10 px-4">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-extrabold text-slate-900 mb-2"><i class="fa-solid fa-globe text-indigo-600 mr-2"></i>Глобальное расписание</h1>
+            <p class="text-slate-500">Мониторинг времени, независимая конвертация и планирование встреч</p>
+        </div>
 
-        <!-- Карточка добавления новой встречи -->
-        <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
-            <h2 class="text-xl font-semibold mb-6 flex items-center gap-2">
-                <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                Добавить новую встречу
-            </h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <!-- Название -->
-                <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Название встречи</label>
-                    <input type="text" id="m_title" placeholder="Например: Созвон с инвесторами" 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">
-                </div>
+        <!-- Блок 1: Часы реального времени -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 text-center">
+                <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Москва (Базовое)</div>
+                <div id="clock-msk" class="text-2xl font-mono font-bold text-indigo-600">--:--:--</div>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 text-center">
+                <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Лондон (-3 ч)</div>
+                <div id="clock-lon" class="text-2xl font-mono font-bold text-slate-700">--:--:--</div>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 text-center">
+                <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Нью-Йорк (-7 ч)</div>
+                <div id="clock-ny" class="text-2xl font-mono font-bold text-slate-700">--:--:--</div>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 text-center">
+                <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Токио (+6 ч)</div>
+                <div id="clock-tok" class="text-2xl font-mono font-bold text-slate-700">--:--:--</div>
+            </div>
+        </div>
 
-                <!-- Дата и время (Календарь) -->
+        <!-- Блок 2: Независимый конвертер -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-8">
+            <h2 class="text-lg font-bold mb-4 flex items-center"><i class="fa-solid fa-calculator text-slate-400 mr-2"></i>Калькулятор часовых поясов</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Дата и время (По Москве)</label>
-                    <input type="datetime-local" id="m_time" 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">
+                    <label class="block text-xs text-slate-500 mb-1">Исходное время</label>
+                    <input type="datetime-local" id="calc-time" class="w-full border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-indigo-500 outline-none">
                 </div>
-
-                <!-- Часовой пояс (Континент + Город) -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Целевой часовой пояс</label>
-                    <div class="flex gap-2">
-                        <!-- Выбор континента -->
-                        <select id="m_continent" onchange="updateCities()" class="w-1/2 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all bg-white">
-                            <option value="Europe">Европа (Europe)</option>
-                            <option value="Asia">Азия (Asia)</option>
-                            <option value="America">Америка (America)</option>
-                            <option value="Africa">Африка (Africa)</option>
-                            <option value="Australia">Австралия (Australia)</option>
-                        </select>
-                        
-                        <!-- Ввод города с подсказками -->
-                        <input list="city_list" id="m_city" placeholder="Город (на русском)" 
-                               class="w-1/2 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">
-                        <datalist id="city_list">
-                            <!-- Опции будут добавлены через JS -->
-                        </datalist>
+                    <label class="block text-xs text-slate-500 mb-1">Из пояса</label>
+                    <select id="calc-source" class="w-full border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-indigo-500 outline-none">
+                        <optgroup label="Россия">
+                            <option value="Europe/Kaliningrad">Калининград (МСК-1)</option>
+                            <option value="Europe/Moscow" selected>Москва (МСК)</option>
+                            <option value="Europe/Samara">Самара (МСК+1)</option>
+                            <option value="Asia/Yekaterinburg">Екатеринбург (МСК+2)</option>
+                            <option value="Asia/Omsk">Омск (МСК+3)</option>
+                            <option value="Asia/Novosibirsk">Новосибирск (МСК+4)</option>
+                            <option value="Asia/Irkutsk">Иркутск (МСК+5)</option>
+                            <option value="Asia/Vladivostok">Владивосток (МСК+7)</option>
+                            <option value="Asia/Kamchatka">Камчатка (МСК+9)</option>
+                        </optgroup>
+                        <optgroup label="Европа">
+                            <option value="Europe/London">Лондон</option>
+                            <option value="Europe/Paris">Париж / Берлин / Рим</option>
+                            <option value="Europe/Istanbul">Стамбул</option>
+                        </optgroup>
+                        <optgroup label="Азия">
+                            <option value="Asia/Dubai">Дубай</option>
+                            <option value="Asia/Tokyo">Токио</option>
+                            <option value="Asia/Shanghai">Пекин / Шанхай</option>
+                            <option value="Asia/Singapore">Сингапур</option>
+                        </optgroup>
+                        <optgroup label="Америка">
+                            <option value="America/New_York">Нью-Йорк / Торонто</option>
+                            <option value="America/Chicago">Чикаго</option>
+                            <option value="America/Los_Angeles">Лос-Анджелес</option>
+                            <option value="America/Sao_Paulo">Сан-Паулу / Буэнос-Айрес</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-500 mb-1">В пояс</label>
+                    <select id="calc-target" class="w-full border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-indigo-500 outline-none">
+                        <optgroup label="Россия">
+                            <option value="Europe/Moscow">Москва (МСК)</option>
+                            <option value="Asia/Yekaterinburg">Екатеринбург (МСК+2)</option>
+                            <option value="Asia/Novosibirsk">Новосибирск (МСК+4)</option>
+                            <option value="Asia/Vladivostok">Владивосток (МСК+7)</option>
+                        </optgroup>
+                        <optgroup label="Европа">
+                            <option value="Europe/London">Лондон</option>
+                            <option value="Europe/Paris">Париж / Берлин / Рим</option>
+                            <option value="Europe/Istanbul">Стамбул</option>
+                        </optgroup>
+                        <optgroup label="Азия">
+                            <option value="Asia/Dubai">Дубай</option>
+                            <option value="Asia/Tokyo" selected>Токио</option>
+                            <option value="Asia/Shanghai">Пекин / Шанхай</option>
+                            <option value="Asia/Singapore">Сингапур</option>
+                        </optgroup>
+                        <optgroup label="Америка">
+                            <option value="America/New_York">Нью-Йорк / Торонто</option>
+                            <option value="America/Los_Angeles">Лос-Анджелес</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div>
+                    <button onclick="calculateStandalone()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-medium py-2.5 px-4 rounded-lg transition">Рассчитать</button>
+                </div>
+            </div>
+            <div id="calc-result" class="mt-4 hidden p-3 bg-indigo-50 rounded-lg text-indigo-800 font-medium border border-indigo-100"></div>
+        </div>
+
+        <!-- Блок 3: База данных и планирование -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Левая колонка: Добавление -->
+            <div class="md:col-span-1">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 sticky top-4">
+                    <h2 class="text-lg font-bold mb-4 flex items-center"><i class="fa-solid fa-plus text-indigo-500 mr-2"></i>Новая встреча</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs text-slate-500 mb-1">Название</label>
+                            <input type="text" id="m_title" placeholder="Например: Созвон" class="w-full border border-slate-300 rounded-lg p-2.5 outline-none focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-500 mb-1">Время (По Москве)</label>
+                            <input type="datetime-local" id="m_time" class="w-full border border-slate-300 rounded-lg p-2.5 outline-none focus:border-indigo-500">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-xs text-slate-500 mb-1">Континент</label>
+                                <select id="m_continent" onchange="updateCityList()" class="w-full border border-slate-300 rounded-lg p-2.5 outline-none focus:border-indigo-500">
+                                    <option value="Europe">Европа</option>
+                                    <option value="Asia">Азия</option>
+                                    <option value="America">Америка</option>
+                                    <option value="Australia">Австралия и Океания</option>
+                                    <option value="Africa">Африка</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-slate-500 mb-1">Город</label>
+                                <input type="text" id="m_city" list="city-list" placeholder="На русском" class="w-full border border-slate-300 rounded-lg p-2.5 outline-none focus:border-indigo-500">
+                                <datalist id="city-list"></datalist>
+                            </div>
+                        </div>
+                        <button onclick="addAndConvert()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition mt-2">Сохранить в БД</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Сообщение об успехе/ошибке -->
-            <div id="result-msg" class="hidden mt-4 p-4 rounded-lg text-sm font-medium"></div>
-
-            <!-- Кнопка сохранения -->
-            <div class="mt-6 flex justify-end">
-                <button onclick="addAndConvert()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 px-6 rounded-lg shadow-sm transition-colors duration-200 flex items-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
-                    Конвертировать и сохранить
-                </button>
+            <!-- Правая колонка: Список -->
+            <div class="md:col-span-2">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-lg font-bold flex items-center"><i class="fa-solid fa-database text-slate-400 mr-2"></i>Сохраненные встречи</h2>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs font-bold text-slate-400 uppercase hidden md:inline">Отображать в:</span>
+                            <select id="my-timezone" onchange="loadMeetings()" class="text-sm border border-slate-300 rounded-lg p-1.5 focus:ring-2 focus:ring-indigo-500 outline-none font-medium text-indigo-700">
+                                <optgroup label="Россия">
+                                    <option value="Europe/Kaliningrad">Калининград (МСК-1)</option>
+                                    <option value="Europe/Moscow">Москва (МСК)</option>
+                                    <option value="Asia/Yekaterinburg">Екатеринбург (МСК+2)</option>
+                                    <option value="Asia/Novosibirsk">Новосибирск (МСК+4)</option>
+                                    <option value="Asia/Vladivostok">Владивосток (МСК+7)</option>
+                                </optgroup>
+                                <optgroup label="Мир">
+                                    <option value="Europe/London">Лондон (-3 ч от МСК)</option>
+                                    <option value="America/New_York">Нью-Йорк (-7 ч от МСК)</option>
+                                    <option value="Asia/Tokyo">Токио (+6 ч от МСК)</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div id="meeting-list" class="space-y-3"></div>
+                </div>
             </div>
-        </section>
-
-        <!-- Карточка со списком встреч -->
-        <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                <h2 class="text-xl font-semibold flex items-center gap-2">
-                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                    Сохраненные встречи
-                </h2>
-                <button onclick="loadMeetings()" class="text-indigo-600 bg-indigo-50 hover:bg-indigo-100 font-medium py-2 px-4 rounded-lg transition-colors text-sm flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                    Обновить список
-                </button>
-            </div>
-            
-            <!-- Сетка для карточек встреч -->
-            <div id="meeting-list" class="grid grid-cols-1 gap-4">
-                <div class="text-gray-400 text-center py-8">Нажмите "Обновить список", чтобы загрузить данные из базы.</div>
-            </div>
-        </section>
-
+        </div>
     </div>
 
     <script>
         const API_URL = "http://localhost:8000";
 
-        // Словарь городов для подсказок (datalist) на русском
+        // Масштабный словарь городов мира для автодополнения и перевода
         const cityData = {
-            "Europe": ["Лондон", "Париж", "Берлин", "Москва", "Рим", "Мадрид", "Амстердам", "Киев", "Минск"],
-            "Asia": ["Токио", "Шанхай", "Дубай", "Сингапур", "Сеул", "Бангкок", "Стамбул", "Ташкент", "Алматы"],
-            "America": ["Нью-Йорк", "Лос-Анджелес", "Чикаго", "Торонто", "Сан-Паулу", "Мехико", "Буэнос-Айрес", "Вашингтон"],
-            "Africa": ["Каир", "Йоханнесбург", "Найроби", "Касабланка", "Лагос"],
-            "Australia": ["Сидней", "Мельбурн", "Брисбен", "Перт", "Аделаида"]
+            "Europe": { 
+                "Москва": "Moscow", "Санкт-Петербург": "Moscow", "Калининград": "Kaliningrad", "Самара": "Samara",
+                "Лондон": "London", "Париж": "Paris", "Берлин": "Berlin", "Рим": "Rome", "Мадрид": "Madrid", "Стамбул": "Istanbul"
+            },
+            "Asia": { 
+                "Екатеринбург": "Yekaterinburg", "Омск": "Omsk", "Новосибирск": "Novosibirsk", "Красноярск": "Krasnoyarsk",
+                "Иркутск": "Irkutsk", "Якутск": "Yakutsk", "Владивосток": "Vladivostok", "Магадан": "Magadan", "Камчатка": "Kamchatka",
+                "Токио": "Tokyo", "Дубай": "Dubai", "Сингапур": "Singapore", "Сеул": "Seoul", "Бангкок": "Bangkok",
+                "Пекин": "Shanghai", "Гонконг": "Hong_Kong", "Ташкент": "Tashkent", "Алматы": "Almaty"
+            },
+            "America": { 
+                "Нью-Йорк": "New_York", "Лос-Анджелес": "Los_Angeles", "Торонто": "Toronto", "Чикаго": "Chicago",
+                "Мехико": "Mexico_City", "Сан-Паулу": "Sao_Paulo", "Буэнос-Айрес": "Argentina/Buenos_Aires", "Гавана": "Havana"
+            },
+            "Australia": {
+                "Сидней": "Sydney", "Мельбурн": "Melbourne", "Брисбен": "Brisbane", "Перт": "Perth"
+            },
+            "Africa": {
+                "Каир": "Cairo", "Йоханнесбург": "Johannesburg", "Найроби": "Nairobi"
+            }
         };
 
-        // Переводчик из русского в английский для часового пояса
-        const cityTranslation = {
-            "Лондон": "London", "Париж": "Paris", "Берлин": "Berlin", "Москва": "Moscow", "Рим": "Rome", "Мадрид": "Madrid", "Амстердам": "Amsterdam", "Киев": "Kiev", "Минск": "Minsk",
-            "Токио": "Tokyo", "Шанхай": "Shanghai", "Дубай": "Dubai", "Сингапур": "Singapore", "Сеул": "Seoul", "Бангкок": "Bangkok", "Стамбул": "Istanbul", "Ташкент": "Tashkent", "Алматы": "Almaty",
-            "Нью-Йорк": "New_York", "Лос-Анджелес": "Los_Angeles", "Чикаго": "Chicago", "Торонто": "Toronto", "Сан-Паулу": "Sao_Paulo", "Мехико": "Mexico_City", "Буэнос-Айрес": "Buenos_Aires", "Вашингтон": "Washington",
-            "Каир": "Cairo", "Йоханнесбург": "Johannesburg", "Найроби": "Nairobi", "Касабланка": "Casablanca", "Лагос": "Lagos",
-            "Сидней": "Sydney", "Мельбурн": "Melbourne", "Брисбен": "Brisbane", "Перт": "Perth", "Аделаида": "Adelaide"
-        };
-
-        // Функция обновления подсказок городов при смене континента
-        function updateCities() {
-            const continent = document.getElementById("m_continent").value;
-            const dataList = document.getElementById("city_list");
-            const cityInput = document.getElementById("m_city");
-            
-            dataList.innerHTML = "";
-            cityInput.value = "";
-
-            if (cityData[continent]) {
-                cityData[continent].forEach(city => {
-                    let option = document.createElement("option");
-                    option.value = city;
-                    dataList.appendChild(option);
-                });
+        function updateCityList() {
+            const cont = document.getElementById("m_continent").value;
+            const datalist = document.getElementById("city-list");
+            datalist.innerHTML = "";
+            for (let ruCity in cityData[cont]) {
+                let opt = document.createElement("option");
+                opt.value = ruCity;
+                datalist.appendChild(opt);
             }
+            document.getElementById("m_city").value = ""; 
         }
+        
+        updateCityList();
 
-        window.onload = updateCities;
-
-        // Показ сообщений
-        function showMessage(text, isError = false) {
-            const msgBox = document.getElementById("result-msg");
-            msgBox.classList.remove("hidden", "bg-green-100", "text-green-800", "bg-red-100", "text-red-800");
+        function updateClocks() {
+            const now = new Date();
+            const formatTime = (tz) => new Intl.DateTimeFormat('ru-RU', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(now);
             
-            if (isError) {
-                msgBox.classList.add("bg-red-100", "text-red-800");
-            } else {
-                msgBox.classList.add("bg-green-100", "text-green-800");
-            }
-            msgBox.innerText = text;
+            document.getElementById('clock-msk').innerText = formatTime('Europe/Moscow');
+            document.getElementById('clock-lon').innerText = formatTime('Europe/London');
+            document.getElementById('clock-ny').innerText = formatTime('America/New_York');
+            document.getElementById('clock-tok').innerText = formatTime('Asia/Tokyo');
+        }
+        setInterval(updateClocks, 1000);
+        updateClocks();
+
+        async function calculateStandalone() {
+            const timeVal = document.getElementById("calc-time").value;
+            if (!timeVal) return alert("Выберите время!");
             
-            setTimeout(() => msgBox.classList.add("hidden"), 5000);
-        }
-
-        // Загрузка встреч
-        async function loadMeetings() {
-            try {
-                const res = await fetch(`${API_URL}/meetings`);
-                const data = await res.json();
-                const list = document.getElementById("meeting-list");
-                list.innerHTML = "";
-
-                if (data.length === 0) {
-                    list.innerHTML = '<div class="text-gray-400 text-center py-4">Список пуст</div>';
-                    return;
-                }
-
-                data.forEach(m => {
-                    const card = document.createElement("div");
-                    card.className = "p-4 rounded-xl border border-gray-100 bg-gray-50 hover:bg-gray-100 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4";
-                    
-                    const timeOriginal = m.base_time.split('.')[0]; 
-                    const timeConverted = m.converted_time ? m.converted_time.split('.')[0] : 'Ошибка расчета';
-
-                    // Добавлена кнопка удаления с иконкой корзины в правый блок
-                    card.innerHTML = `
-                        <div class="flex-1">
-                            <h3 class="font-bold text-gray-800 text-lg">${m.title}</h3>
-                            <div class="text-sm text-gray-500 mt-1 flex items-center gap-1">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                Исходное (МСК): <span class="font-medium text-gray-700">${timeOriginal}</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div class="bg-indigo-50 border border-indigo-100 px-4 py-3 rounded-lg min-w-[200px]">
-                                <div class="text-xs font-semibold text-indigo-600 uppercase tracking-wide mb-1">Время в ${m.target_tz}</div>
-                                <div class="text-lg font-bold text-indigo-900">${timeConverted}</div>
-                            </div>
-                            <button onclick="deleteMeeting(${m.id})" class="p-3 text-red-500 hover:text-red-700 bg-white border border-red-100 hover:bg-red-50 rounded-lg transition-colors shadow-sm" title="Удалить встречу">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                            </button>
-                        </div>
-                    `;
-                    list.appendChild(card);
-                });
-            } catch (error) {
-                console.error("Ошибка загрузки:", error);
-                showMessage("Не удалось загрузить данные с сервера.", true);
-            }
-        }
-
-        // Удаление встречи
-        async function deleteMeeting(id) {
-            try {
-                const res = await fetch(`${API_URL}/delete_meeting/${id}`, {
-                    method: "DELETE"
-                });
-                
-                if (res.ok) {
-                    showMessage("Встреча успешно удалена");
-                    loadMeetings(); // Обновляем список сразу после удаления
-                } else {
-                    showMessage("Ошибка при удалении", true);
-                }
-            } catch (error) {
-                console.error("Ошибка удаления:", error);
-                showMessage("Не удалось связаться с сервером.", true);
-            }
-        }
-
-        // Отправка новой встречи
-        async function addAndConvert() {
-            const title = document.getElementById("m_title").value;
-            const datetimeLocal = document.getElementById("m_time").value;
-            const continent = document.getElementById("m_continent").value;
-            let cityInput = document.getElementById("m_city").value.trim();
-
-            if (!title || !datetimeLocal || !cityInput) {
-                showMessage("Пожалуйста, заполните все поля!", true);
-                return;
-            }
-
-            const formattedTime = datetimeLocal.replace('T', ' ') + ':00';
-
-            // Переводим город на английский, если он есть в словаре. Если нет - берем то, что ввел пользователь.
-            let cityEnglish = cityTranslation[cityInput] || cityInput;
-            cityEnglish = cityEnglish.replace(/\s+/g, '_'); // На всякий случай заменяем пробелы на _
-            
-            const targetTimezone = `${continent}/${cityEnglish}`;
-
             const payload = {
-                title: title,
-                base_time: formattedTime,
-                target_timezone: targetTimezone
+                base_time: timeVal.replace("T", " ") + ":00",
+                source_tz: document.getElementById("calc-source").value,
+                target_tz: document.getElementById("calc-target").value
             };
 
-            try {
-                const res = await fetch(`${API_URL}/add_meeting`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
-                });
-                
-                const data = await res.json();
-                
-                if (data.status === "success" && data.converted) {
-                    showMessage(`Успешно! Время для ${cityInput}: ${data.converted}`);
-                    document.getElementById("m_title").value = "";
-                    document.getElementById("m_time").value = "";
-                    document.getElementById("m_city").value = "";
-                    loadMeetings();
-                } else {
-                    showMessage("Ошибка при конвертации времени. Убедитесь, что город указан верно.", true);
-                }
-            } catch (error) {
-                console.error("Ошибка отправки:", error);
-                showMessage("Не удалось связаться с сервером.", true);
-            }
+            const res = await fetch(`${API_URL}/convert_standalone`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            
+            const resBox = document.getElementById("calc-result");
+            resBox.classList.remove("hidden");
+            resBox.innerHTML = `В поясе <b>${payload.target_tz}</b> будет: <b>${data.converted_time}</b> <span class="ml-2 px-2 py-0.5 bg-indigo-200 text-indigo-900 rounded text-xs">Разница: ${data.difference} ч.</span>`;
         }
+
+        function formatToSelectedTz(moscowTimeStr, targetTz) {
+            const isoStr = moscowTimeStr.replace(' ', 'T') + '+03:00';
+            const dateObj = new Date(isoStr);
+            const formatter = new Intl.DateTimeFormat('ru-RU', {
+                timeZone: targetTz, year: 'numeric', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit', second: '2-digit'
+            });
+            return formatter.format(dateObj).replace(',', '');
+        }
+
+        async function loadMeetings() {
+            const res = await fetch(`${API_URL}/meetings`);
+            const data = await res.json();
+            const list = document.getElementById("meeting-list");
+            const myTz = document.getElementById("my-timezone").value;
+            
+            list.innerHTML = "";
+            data.forEach(m => {
+                const adaptedTime = formatToSelectedTz(m.base_time, myTz);
+                const isError = !m.converted_time || m.converted_time === "null" || m.converted_time.includes("error");
+                
+                list.innerHTML += `
+                <div class="p-4 border border-slate-100 rounded-xl bg-slate-50 flex justify-between items-center hover:shadow-md transition">
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-md">${m.title}</h3>
+                        <div class="text-xs text-slate-500 mt-1 flex items-center">
+                            <i class="fa-regular fa-clock mr-1"></i> Исходное: ${adaptedTime} (в выбранном поясе)
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="text-right">
+                            <div class="text-[10px] font-bold text-indigo-500 uppercase">В поясе ${m.target_tz}</div>
+                            <div class="font-mono font-bold ${isError ? 'text-red-400' : 'text-slate-700'}">${isError ? 'Неверный город' : m.converted_time}</div>
+                        </div>
+                        <button onclick="deleteMeeting(${m.id})" class="text-red-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-lg transition" title="Удалить встречу">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>`;
+            });
+        }
+
+        async function addAndConvert() {
+            const titleVal = document.getElementById("m_title").value || "Без названия";
+            const timeVal = document.getElementById("m_time").value;
+            const contVal = document.getElementById("m_continent").value;
+            const cityVal = document.getElementById("m_city").value.trim();
+
+            if (!timeVal) return alert("Пожалуйста, выберите дату и время.");
+            if (!cityVal) return alert("Пожалуйста, введите город.");
+
+            let enCity = cityVal;
+            if (cityData[contVal] && cityData[contVal][cityVal]) {
+                enCity = cityData[contVal][cityVal];
+            } else {
+                enCity = cityVal.replace(/\s+/g, '_');
+            }
+
+            const payload = {
+                title: titleVal,
+                base_time: timeVal.replace("T", " ") + ":00",
+                target_timezone: `${contVal}/${enCity}`
+            };
+
+            await fetch(`${API_URL}/add_meeting`, { 
+                method: "POST", 
+                headers: { "Content-Type": "application/json" }, 
+                body: JSON.stringify(payload) 
+            });
+            
+            document.getElementById("m_title").value = "";
+            document.getElementById("m_time").value = "";
+            document.getElementById("m_city").value = "";
+            
+            loadMeetings();
+        }
+
+        async function deleteMeeting(id) {
+            await fetch(`${API_URL}/delete_meeting/${id}`, { method: "DELETE" });
+            loadMeetings();
+        }
+
+        window.onload = loadMeetings;
     </script>
 </body>
 </html>

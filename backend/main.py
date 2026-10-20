@@ -7,7 +7,7 @@ import os
 
 app = FastAPI()
 
-# Разрешаем Frontend (на порту 8080) обращаться к Backend
+# Разрешаем Frontend обращаться к Backend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -32,7 +32,7 @@ class MeetingRequest(BaseModel):
 def get_meetings():
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT id, title, base_time, target_timezone, converted_time FROM meetings;")
+    cur.execute("SELECT id, title, base_time, target_timezone, converted_time FROM meetings ORDER BY id ASC;")
     rows = cur.fetchall()
     cur.close()
     conn.close()
@@ -44,7 +44,8 @@ def add_meeting(meeting: MeetingRequest):
     ws_url = "http://web-service:8001/convert"
     ws_response = requests.post(ws_url, json={
         "base_time_str": meeting.base_time,
-        "target_tz": meeting.target_timezone
+        "target_tz": meeting.target_timezone,
+        "source_tz": "Europe/Moscow"
     })
     
     converted = None
@@ -63,7 +64,6 @@ def add_meeting(meeting: MeetingRequest):
     conn.close()
     return {"status": "success", "converted": converted}
 
-
 @app.delete("/delete_meeting/{meeting_id}")
 def delete_meeting(meeting_id: int):
     conn = get_db_connection()
@@ -73,3 +73,22 @@ def delete_meeting(meeting_id: int):
     cur.close()
     conn.close()
     return {"status": "success"}
+
+# --- Блок для независимого конвертера ---
+
+class StandaloneRequest(BaseModel):
+    base_time: str
+    source_tz: str
+    target_tz: str
+
+@app.post("/convert_standalone")
+def convert_standalone(req: StandaloneRequest):
+    ws_url = "http://web-service:8001/convert"
+    ws_response = requests.post(ws_url, json={
+        "base_time_str": req.base_time,
+        "target_tz": req.target_tz,
+        "source_tz": req.source_tz
+    })
+    if ws_response.status_code == 200:
+        return ws_response.json()
+    return {"error": "Ошибка внешнего веб-сервиса"}
